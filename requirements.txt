@@ -1,0 +1,5 @@
+flwr==1.0.0
+tensorflow-cpu==2.9.2
+pandas
+matplotlib
+jupyterlab
