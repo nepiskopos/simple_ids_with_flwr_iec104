@@ -35,12 +35,12 @@ if __name__ == "__main__" :
 
 
 	# Load train data
-	df = pd.read_csv(f'./client_data_{args.id}.csv')
+	df = pd.read_csv(f'/root/client_data_{args.id}.csv')
 	X_train = df.drop(columns=['y'])
 	y_train = df['y']
 
 	# Load test data
-	df = pd.read_csv(f'./test_data.csv')
+	df = pd.read_csv(f'/root/test_data.csv')
 	X_test = df.drop(columns=['y'])
 	y_test = df['y']
 
