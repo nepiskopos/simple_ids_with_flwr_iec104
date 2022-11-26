@@ -5,10 +5,10 @@ import flwr as fl
 
 
 if __name__ == "__main__" :
-	parser = argparse.ArgumentParser(description='Flower server')
-	parser.add_argument("-a", "--address", help="IP address", default="0.0.0.0")
+	parser = argparse.ArgumentParser(description='Implementation of the proposed coded EBC algorithm')
+	parser.add_argument("-a", "--address", help="IP address", default="127.0.0.1")
 	parser.add_argument("-p", "--port", help="serving port", default=8000, type=int)
-	parser.add_argument("-r", "--rounds", help="number of rounds", default=10, type=int)
+	parser.add_argument("-r", "--rounds", help="number of rounds", default=3, type=int)
 	args = parser.parse_args()
 
 	try:
@@ -20,8 +20,9 @@ if __name__ == "__main__" :
 	if args.rounds < 0:
 		sys.exit(f"Wrong number of rounds: {args.rounds}")
 
-	# Start Flower server
+
+	# Start Flower aggregation and distribution server
 	fl.server.start_server(
-        server_address=f"{args.address}:{args.port}",
-        config=fl.server.ServerConfig(num_rounds=args.rounds),
+		server_address=f"{args.address}:{args.port}",
+		config=fl.server.ServerConfig(num_rounds=args.rounds),
 	)

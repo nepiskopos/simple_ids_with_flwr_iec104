@@ -1,5 +1,6 @@
 flwr==1.0.0
 tensorflow-cpu==2.9.2
+scikit-learn
 pandas
 matplotlib
 jupyterlab
