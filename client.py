@@ -15,9 +15,9 @@ import flwr as fl
 
 
 if __name__ == "__main__" :
-	parser = argparse.ArgumentParser(description='Implementation of the proposed coded EBC algorithm')
-	parser.add_argument("-a", "--address", help="IP address", default="127.0.0.1")
-	parser.add_argument("-p", "--port", help="serving port", default=8000, type=int)
+	parser = argparse.ArgumentParser(description='Flower straggler / client implementation')
+	parser.add_argument("-a", "--address", help="Aggregator server's IP address", default="127.0.0.1")
+	parser.add_argument("-p", "--port", help="Aggregator server's serving port", default=8000, type=int)
 	parser.add_argument("-i", "--id", help="client ID", default=0, type=int)
 	args = parser.parse_args()
 

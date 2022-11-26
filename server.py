@@ -5,10 +5,10 @@ import flwr as fl
 
 
 if __name__ == "__main__" :
-	parser = argparse.ArgumentParser(description='Implementation of the proposed coded EBC algorithm')
-	parser.add_argument("-a", "--address", help="IP address", default="127.0.0.1")
-	parser.add_argument("-p", "--port", help="serving port", default=8000, type=int)
-	parser.add_argument("-r", "--rounds", help="number of rounds", default=3, type=int)
+	parser = argparse.ArgumentParser(description='Flower aggregator server implementation')
+	parser.add_argument("-a", "--address", help="IP address", default="0.0.0.0")
+	parser.add_argument("-p", "--port", help="Serving port", default=8000, type=int)
+	parser.add_argument("-r", "--rounds", help="Number of training and aggregation rounds", default=3, type=int)
 	args = parser.parse_args()
 
 	try:
