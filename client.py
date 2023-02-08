@@ -66,7 +66,7 @@ if __name__ == "__main__" :
 		InputLayer(input_shape=(X_train_scaled.shape[1],)),
 		Dense(units=50, activation='relu'),
 		Dropout(0.2),
-		Dense(units=y_test_cat.shape[1], activation='softmax')
+		Dense(units=y_train_cat.shape[1], activation='softmax')
 	])
 
 	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
