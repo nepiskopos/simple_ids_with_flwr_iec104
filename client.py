@@ -1,9 +1,12 @@
 import argparse
 import ipaddress
-import numpy as np
 import os
-import pandas as pd
+import sys
+
 from typing import Dict
+
+import numpy as np
+import pandas as pd
 
 from sklearn.metrics import f1_score
 from sklearn.preprocessing import MinMaxScaler
@@ -89,4 +92,7 @@ if __name__ == "__main__" :
 
 
 	# Start Flower straggler and initiate communication with the Flower aggretation server
-	fl.client.start_numpy_client(server_address=f"{args.address}:{args.port}", client=Client())
+	fl.client.start_numpy_client(
+		server_address=f"{args.address}:{args.port}",
+		client=Client()
+	)
