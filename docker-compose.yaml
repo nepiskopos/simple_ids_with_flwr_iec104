@@ -1,81 +1,126 @@
+version: '2.4'
 networks:
+  net0:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 190.160.0.0/24
+          gateway: 190.160.0.1
   net1:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 191.160.0.0/24
-          gateway: 191.160.0.1
+        - subnet: 191.161.0.0/24
+          gateway: 191.161.0.1
   net2:
     driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 192.168.0.0/24
-          gateway: 192.168.0.1
+        - subnet: 192.162.0.0/24
+          gateway: 192.162.0.1
+  net3:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 193.163.0.0/24
+          gateway: 193.163.0.1
 services:
   flwr_s:
-    image: tensorflow/tensorflow:2.9.2
+    image: tensorflow/tensorflow:2.11.0
     ports:
-      - "80:8000"
+      - "80:8080"
     expose:
-      - "8000"
+      - "8080"
     volumes:
       - ./:/root/
     networks:
+      net0:
+        ipv4_address: 190.160.0.2
       net1:
-        ipv4_address: 191.160.0.2
+        ipv4_address: 191.161.0.2
       net2:
-        ipv4_address: 192.168.0.2
+        ipv4_address: 192.162.0.2
+      net3:
+        ipv4_address: 193.163.0.2
     command:
       - /bin/sh
       - -c
       - |
-        python3 -m pip install --upgrade flwr==1.0.0
-        python3 /root/server.py
+        python3 -m pip install --upgrade pandas scikit-learn flwr==1.3
+        python3 /root/server.py -p 8080
   flwr_c1:
-    image: tensorflow/tensorflow:2.9.2
+    image: tensorflow/tensorflow:2.11.0
     ports:
-      - "81:8000"
+      - "81:8080"
     expose:
-      - "8000"
+      - "8080"
     volumes:
       - ./:/root/
     networks:
       net1:
-        ipv4_address: 191.160.0.3
+        ipv4_address: 191.161.0.3
     command:
       - /bin/sh
       - -c
       - |
-        python3 -m pip install --upgrade pandas scikit-learn flwr==1.0.0
-        python3 /root/client.py --id 1 --address 191.160.0.2 --port 8000
+        python3 -m pip install --upgrade pandas scikit-learn flwr==1.3
+        sleep 5
+        python3 /root/client.py --address 191.161.0.2 --port 8080 -d /root/client_data_1.csv
     healthcheck:
-        test: ["/bin/sh", "curl", "-f", "http://191.160.0.2:8000"]
-        interval: 30s
+        test: ["/bin/sh", "curl", "-f", "http://191.161.0.2:8080"]
+        interval: 10s
         timeout: 10s
         retries: 5
         start_period: 5s
   flwr_c2:
-    image: tensorflow/tensorflow:2.9.2
+    image: tensorflow/tensorflow:2.11.0
     ports:
-      - "82:8000"
+      - "82:8080"
     expose:
-      - "8000"
+      - "8080"
     volumes:
       - ./:/root/
     networks:
       net2:
-        ipv4_address: 192.168.0.3
+        ipv4_address: 192.162.0.3
     command:
       - /bin/sh
       - -c
       - |
-        python3 -m pip install --upgrade pandas scikit-learn flwr==1.0.0
-        python3 /root/client.py --id 2 --address 192.168.0.2 --port 8000
+        python3 -m pip install --upgrade pandas scikit-learn flwr==1.3
+        sleep 5
+        python3 /root/client.py --address 192.162.0.2 --port 8080 -d /root/client_data_2.csv
     healthcheck:
-        test: ["/bin/sh", "curl", "-f", "http://192.168.0.2:8000"]
-        interval: 30s
+        test: ["/bin/sh", "curl", "-f", "http://192.162.0.2:8080"]
+        interval: 10s
+        timeout: 10s
+        retries: 5
+        start_period: 5s
+  flwr_c3:
+    image: tensorflow/tensorflow:2.11.0
+    ports:
+      - "83:8080"
+    expose:
+      - "8080"
+    volumes:
+      - ./:/root/
+    networks:
+      net3:
+        ipv4_address: 193.163.0.3
+    command:
+      - /bin/sh
+      - -c
+      - |
+        python3 -m pip install --upgrade pandas scikit-learn flwr==1.3
+        sleep 5
+        python3 /root/client.py --address 193.163.0.2 --port 8080 -d /root/client_data_3.csv
+    healthcheck:
+        test: ["/bin/sh", "curl", "-f", "http://193.163.0.2:8080"]
+        interval: 10s
         timeout: 10s
         retries: 5
         start_period: 5s
