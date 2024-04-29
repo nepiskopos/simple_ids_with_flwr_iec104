@@ -1,5 +1,5 @@
 # Intrusion Detection System with Federated Learning using the Flower framework
-Example of training of a simple Neural Network model as an Intrusion Detection System for Cybersecurity defense using Federated Learning with the Flower framework.
+Example of training of a simple Neural Network model as an Intrusion Detection System for Cybersecurity defense using Federated Learning with the [Flower framework](https://flower.ai/) and the [IEC 60870-5-104 Intrusion Detection Dataset](https://ieee-dataport.org/documents/iec-60870-5-104-intrusion-detection-dataset).
 
 ## Instructions
 1. Run the [Flower_IDS_IEC104_preprocessing.ipynb](./Flower_IDS_IEC104_preprocessing.ipynb) notebook for preprocessing the dataset and extracting individual straggler training data and test data.
