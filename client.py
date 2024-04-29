@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from sklearn.metrics import f1_score
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import InputLayer, Dense, Dropout
@@ -52,7 +52,7 @@ if __name__ == "__main__" :
 
 
 	# Scale feature values for input data normalization
-	scaler = MinMaxScaler()
+	scaler = StandardScaler()
 	X_train_scaled = scaler.fit_transform(X_train)
 	X_test_scaled = scaler.transform(X_test)
 
