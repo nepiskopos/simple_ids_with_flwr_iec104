@@ -23,7 +23,8 @@ if __name__ == "__main__" :
 	parser = argparse.ArgumentParser(description='Flower straggler / client implementation')
 	parser.add_argument("-a", "--address", help="Aggregator server's IP address", default="127.0.0.1")
 	parser.add_argument("-p", "--port", help="Aggregator server's serving port", default=8000, type=int)
-	parser.add_argument("-d", "--dataset", help="dataset path", default="/root/client_data_0.csv")
+	parser.add_argument("-i", "--id", help="client ID", default=0, type=int)
+	parser.add_argument("-d", "--dataset", help="dataset directory", default="/root/datasets/federated_datasets/")
 	args = parser.parse_args()
 
 	try:
@@ -32,16 +33,16 @@ if __name__ == "__main__" :
 		sys.exit(f"Wrong IP address: {args.address}")
 	if args.port < 0 or args.port > 65535:
 		sys.exit(f"Wrong serving port: {args.port}")
-	if not os.path.isfile(args.dataset):
-		sys.exit(f"Wrong path to dataset: {args.dataset}")
+	if not os.path.isdir(args.dataset):
+		sys.exit(f"Wrong path to directory with datasets: {args.dataset}")
 
 	# Make TensorFlow log less verbose
 	os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
 
 	# Load train and test data
-	df_train = pd.read_csv(f'{args.dataset}')
-	df_test = pd.read_csv(os.path.join('/'.join(args.dataset.split('/')[:-1]), 'test_data.csv'))
+	df_train = pd.read_csv(os.path.join(args.dataset, f'client_train_data_{args.id}.csv'))
+	df_test = pd.read_csv(os.path.join(args.dataset, 'test_data.csv'))
 
 	# Split data into X and y
 	X_train = df_train.drop(columns=['y']).to_numpy()

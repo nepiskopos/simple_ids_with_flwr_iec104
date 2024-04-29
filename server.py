@@ -45,8 +45,7 @@ if __name__ == "__main__" :
 	parser.add_argument("-a", "--address", help="IP address", default="0.0.0.0")
 	parser.add_argument("-p", "--port", help="Serving port", default=8000, type=int)
 	parser.add_argument("-r", "--rounds", help="Number of training and aggregation rounds", default=20, type=int)
-	parser.add_argument("-tr", "--train_data", help="training dataset path", default="/root/train_data.csv")
-	parser.add_argument("-te", "--test_data", help="test dataset path", default="/root/test_data.csv")
+	parser.add_argument("-d", "--dataset", help="dataset directory", default="/root/datasets/federated_datasets/")
 	args = parser.parse_args()
 
 	try:
@@ -57,15 +56,13 @@ if __name__ == "__main__" :
 		sys.exit(f"Wrong serving port: {args.port}")
 	if args.rounds < 0:
 		sys.exit(f"Wrong number of rounds: {args.rounds}")
-	if not os.path.isfile(args.train_data):
-		sys.exit(f"Wrong path to training dataset: {args.train_data}")
-	if not os.path.isfile(args.test_data):
-		sys.exit(f"Wrong path to test dataset: {args.test_data}")
+	if not os.path.isdir(args.dataset):
+		sys.exit(f"Wrong path to directory with datasets: {args.dataset}")
 
 
-	# Read train and test datasets
-	df_train = pd.read_csv(args.train_data)
-	df_test = pd.read_csv(args.test_data)
+	# Load train and test data
+	df_train = pd.read_csv(os.path.join(args.dataset, 'train_data.csv'))
+	df_test = pd.read_csv(os.path.join(args.dataset, 'test_data.csv'))
 
 	# Convert data to arrays
 	X_train = df_train.drop(['y'], axis=1).to_numpy()
